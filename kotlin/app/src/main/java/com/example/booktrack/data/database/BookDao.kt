@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BookDao {
     @Insert
-    suspend fun insertBook(book: Book)
+    suspend fun insertBook(book: Book): Long
 
     @Update
     suspend fun updateBook(book: Book)
@@ -23,4 +23,10 @@ interface BookDao {
 
     @Query("SELECT * FROM books WHERE id = :bookId")
     fun getBookById(bookId: Long): Flow<Book>
+    
+    @Query("SELECT * FROM books WHERE status = :status")
+    fun getBooksByStatus(status: BookStatus): Flow<List<Book>>
+    
+    @Query("DELETE FROM books")
+    suspend fun deleteAllBooks()
 }

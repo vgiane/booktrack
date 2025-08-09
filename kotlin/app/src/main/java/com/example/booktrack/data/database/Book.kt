@@ -11,6 +11,13 @@ data class Book(
     val author: String,
     val totalPages: Int?,
     val coverImage: String?,
-    val status: String,
+    val status: BookStatus,
     val notes: String?
 )
+
+enum class BookStatus {
+    ACTIVE,
+    READ,
+    PAUSED,
+    ABANDONED
+}
