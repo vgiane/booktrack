@@ -1,6 +1,8 @@
 package com.example.booktrack.ui.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
@@ -32,7 +34,7 @@ data class BottomNavItem(
 
 val bottomNavItems = listOf(
     BottomNavItem(Screen.ActiveBooks, "Active", Icons.Filled.Home),
-    BottomNavItem(Screen.AllBooks, "All Books", Icons.Filled.List),
+    BottomNavItem(Screen.AllBooks, "All Books", Icons.AutoMirrored.Filled.List),
     BottomNavItem(Screen.Statistics, "Statistics", Icons.Filled.Info),
     BottomNavItem(Screen.Settings, "Settings", Icons.Filled.Settings)
 )
