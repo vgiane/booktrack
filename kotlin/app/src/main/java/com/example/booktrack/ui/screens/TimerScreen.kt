@@ -127,7 +127,6 @@ fun TimerScreen(
                     )
                 ) {
                     Icon(Icons.Filled.Close, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
                 }
 
                 // Play/Pause button
@@ -157,7 +156,6 @@ fun TimerScreen(
                     )
                 ) {
                     Icon(Icons.Filled.Check, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
                 }
             }
 
