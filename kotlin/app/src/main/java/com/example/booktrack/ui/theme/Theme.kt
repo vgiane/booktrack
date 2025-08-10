@@ -54,10 +54,11 @@ fun BooktrackTheme(
         else -> LightColorScheme
     }
     val view = LocalView.current
+    val darkTheme = isSystemInDarkTheme()
+
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

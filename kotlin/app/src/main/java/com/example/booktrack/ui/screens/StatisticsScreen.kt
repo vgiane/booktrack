@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,14 +29,14 @@ fun StatisticsScreen(
     val dailyGoal by viewModel.dailyGoal.collectAsState()
     
     // Calculate statistics
-    val totalReadingTime = readingLogs.sumOf { it.duration }
+    val totalReadingTime = readingLogs.sumOf { it.duration } / 60
     val today = LocalDate.now()
     val todayReadingTime = readingLogs
         .filter { 
             val logDate = Instant.ofEpochMilli(it.date).atZone(ZoneId.systemDefault()).toLocalDate()
             logDate == today 
         }
-        .sumOf { it.duration }
+        .sumOf { it.duration } / 60
     
     // Calculate last 7 days data
     val last7Days = (0..6).map { daysAgo ->
@@ -45,7 +46,7 @@ fun StatisticsScreen(
                 val logDate = Instant.ofEpochMilli(it.date).atZone(ZoneId.systemDefault()).toLocalDate()
                 logDate == date 
             }
-            .sumOf { it.duration }
+            .sumOf { it.duration } / 60
         Pair(date, dayReadingTime)
     }.reversed()
     
@@ -95,17 +96,19 @@ fun StatisticsScreen(
                 val progress = if (dailyGoal != null && dailyGoal!! > 0) {
                     (todayReadingTime.toFloat() / dailyGoal!!).coerceAtMost(1f)
                 } else 0f
-                
+
                 LinearProgressIndicator(
-                    progress = progress,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .height(8.dp),
-                    color = if (progress >= 1f) 
-                        MaterialTheme.colorScheme.primary 
-                    else 
-                        MaterialTheme.colorScheme.secondary
+                progress = { progress },
+                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(top = 8.dp)
+                                        .height(8.dp),
+                color = if (progress >= 1f)
+                                        MaterialTheme.colorScheme.primary
+                                    else
+                                        MaterialTheme.colorScheme.secondary,
+                trackColor = ProgressIndicatorDefaults.linearTrackColor,
+                strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
                 )
             }
         }

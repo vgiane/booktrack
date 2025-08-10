@@ -3,11 +3,8 @@ package com.example.booktrack.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.automirrored.filled.*
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.booktrack.data.database.Book
 import kotlinx.coroutines.delay
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,7 +26,7 @@ fun TimerScreen(
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isRunning by remember { mutableStateOf(false) }
+    var isRunning by remember { mutableStateOf(true) }
     var isPaused by remember { mutableStateOf(false) }
     var elapsedTime by remember { mutableLongStateOf(0L) }
     var showSaveDialog by remember { mutableStateOf(false) }
@@ -48,7 +46,7 @@ fun TimerScreen(
                 title = { Text("Reading Timer") },
                 navigationIcon = {
                     IconButton(onClick = onCancel) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -130,7 +128,6 @@ fun TimerScreen(
                 ) {
                     Icon(Icons.Filled.Close, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Cancel")
                 }
 
                 // Play/Pause button
@@ -146,11 +143,9 @@ fun TimerScreen(
                     }
                 ) {
                     Icon(
-                        if (isRunning) Icons.Filled.Close else Icons.Filled.PlayArrow,
+                        if (isRunning) Icons.Filled.PauseCircle else Icons.Filled.PlayArrow,
                         contentDescription = if (isRunning) "Pause" else "Play"
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(if (isRunning) "Pause" else if (isPaused) "Resume" else "Start")
                 }
 
                 // Stop & Save button
@@ -163,7 +158,6 @@ fun TimerScreen(
                 ) {
                     Icon(Icons.Filled.Check, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Save")
                 }
             }
 
@@ -230,8 +224,7 @@ private fun formatTime(milliseconds: Long): String {
     val seconds = totalSeconds % 60
     
     return if (hours > 0) {
-        String.format("%02d:%02d:%02d", hours, minutes, seconds)
-    } else {
-        String.format("%02d:%02d", minutes, seconds)
+        String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)    } else {
+        String.format(Locale.getDefault(),"%02d:%02d", minutes, seconds)
     }
 }
